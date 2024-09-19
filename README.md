@@ -16,6 +16,7 @@ Run the following commands in the same order:
 
 
 # How OOPs concepts are applied:
+* <b><ins>Classes<b></ins> - Classes have been used to reduce redundancy and help in reusing code through a blueprint. In the assignment, all objects of the student class will be able to use its functions such as view courses, view_cgpa etc. Similarly, all objects of the professor class will have access to all functionalities inside the professor class and same for the other classes.
 * <b><ins>Inheritance</ins></b> - The User class is extended by the Student, Professor and Admin class since all three are users and are going to have login info details common between them which is maintained by the User class.
 * <b><ins>Abstraction</ins></b> - The database of all users is hidden from the client and the class Users is abstract.
 * <b><ins>Polymorphism</ins></b> :
