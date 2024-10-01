@@ -1,17 +1,21 @@
 import java.util.ArrayList;
 
 public class Course {
-    private String course_code, title, prerequisites, schedule;  // schedule = timings + locations
+    private String course_code, title, prerequisites, schedule;
     private ArrayList<String> syllabus;
     private int credits, enrollment_limit;
     private Professor prof;
     private ArrayList<Student> student_list;
     private ArrayList<Integer> semesters;
+    private ArrayList<Feedback<?>> allFeedback;
+    private ArrayList<TA> tas_list;
 
     public Course(String course_code, String title, int credits, String prerequisites, String schedule, ArrayList<Integer> semests, int enrollment_limit)
     {
         syllabus = new ArrayList<String>();
         student_list = new ArrayList<Student>();
+        tas_list = new ArrayList<TA>();
+        allFeedback = new ArrayList<Feedback<?>>();
         this.course_code = course_code;
         this.title = title;
         this.credits = credits;
@@ -25,6 +29,14 @@ public class Course {
     public String[] get_schedule() {
         String[] _schedule = schedule.split(" ");
         return _schedule;
+    }
+
+    public void add_feedback(Feedback<?> feedback) {
+        allFeedback.add(feedback);
+    }
+
+    public ArrayList<Feedback<?>> get_feedback() {
+        return allFeedback;
     }
 
     public String toString()
@@ -111,6 +123,14 @@ public class Course {
 
     public void add_student(Student student) {
         student_list.add(student);
+    }
+
+    public void add_TA(TA _ta) {
+        tas_list.add(_ta);
+    }
+
+    public void remove_TA(TA _ta) {
+        tas_list.remove(_ta);
     }
 
     public void remove_student(Student student) {
