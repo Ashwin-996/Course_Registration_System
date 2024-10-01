@@ -12,7 +12,10 @@ Run the following commands in the same order:
 * Grade for each course is an integer from 0-10. There is no I or W grade since there is no late drop system, the student can drop any registered course normally throughout the duration of the semester.
 * Student fails a course if grade in that course is less than 4.
 * A student cannot go to the next semester unless he passes all registered courses for this sem i.e. gets a grade of 4.0 or above in all registered courses.
-* Professor or Admin will assign grades only when the semester is over. Also, once the grades have started being assigned meaning the semester is over, students cannot drop courses, they can only do so while the semester in ongoing.
+* Professor/TA/Admin will assign grades only when the semester is over. Also, once the grades have started being assigned meaning the semester is over, students cannot drop courses, they can only do so while the semester in ongoing.
+* Only admin can change the course drop deadline.
+* TAs have to signup if they want to become a TA for any course.
+* Only admin can assign any TA to a course.
 
 
 # How OOPs concepts are applied:
