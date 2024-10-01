@@ -6,6 +6,7 @@ public class Admin extends User implements Edit, View{
     private static ArrayList<Student> students = new ArrayList<Student>();
     private static ArrayList<Admin> admins = new ArrayList<Admin>();
     private static ArrayList<Complaint> complaints = new ArrayList<Complaint>();
+    private static ArrayList<TA> tas = new ArrayList<TA>();
 
     public Admin() {
         super();
@@ -21,12 +22,20 @@ public class Admin extends User implements Edit, View{
         students.add(_student);
     }
 
+    public static void add_TA(TA _ta) {
+        tas.add(_ta);
+    }
+
     public static void add_prof(Professor _prof) {
         profs.add(_prof);
     }
 
     public static ArrayList<Student> get_students() {
         return students;
+    }
+
+    public static ArrayList<TA> get_tas() {
+        return tas;
     }
 
     public static ArrayList<Professor> get_profs() {
@@ -294,6 +303,78 @@ public class Admin extends User implements Edit, View{
             }
 
             System.out.println("Professor assigned to course successfully!");
+        }
+    }
+
+    public void change_deadline() {
+        Courses.set_drop_deadline();
+    }
+
+    public void assign_TA() {
+        while(true) {
+            System.out.println("Enter TA email or write \'0\' to go back: ");
+            Scanner scn = new Scanner(System.in);
+            String _name = scn.nextLine();
+
+            if(_name.equals("0")) return;
+
+            boolean TA_available = true, TA_found = false;
+            TA _TA = new TA();
+            for (TA u : tas) {
+                if (u.email.equals(_name)) {
+                    _TA = u;
+                    if(!(_TA.get_course().get_course_code().equals(""))) TA_available = false;
+                    TA_found = true;
+                    break;
+                }
+            }
+
+            if(!TA_found) {
+                System.out.println("No such TA! Try Again.");
+                continue;
+            }
+
+            if(!TA_available) {
+                System.out.println("TA already assigned to a course. Enter:\n0 - if you wish to change the course he is assigned to\n1 - if you want to reenter the name");
+                Scanner scn_int = new Scanner(System.in);
+                String act = scn_int.nextLine();
+
+                if (act.equals("1")) continue;
+            }
+
+            System.out.println("Enter course code: ");
+            String code = scn.nextLine();
+
+            ArrayList<Integer> sms = new ArrayList<>();
+            Course _course = new Course("", "", 0, "", "", sms, 150);
+            for(int sem = 1; sem < 9; sem++) {
+                for(Course u: Courses.get_sem_courses(sem)) {
+                    if(u.get_course_code().equals(_TA.get_course().get_course_code())) {
+                        _course = u;
+                        break;
+                    }
+                }
+            }
+
+            boolean course_found = false;
+            for(int sem = 1; sem < 9; sem++) {
+                for(Course u: Courses.get_sem_courses(sem)) {
+                    if(u.get_course_code().equals(code)) {
+                        u.add_TA(_TA);
+                        _TA.assign_course(u);
+                        course_found = true;
+                        break;
+                    }
+                }
+                if(course_found) break;
+            }
+            if(!course_found) {
+                System.out.println("Course not found! Try Again.");
+                continue;
+            }
+            _course.remove_TA(_TA);
+
+            System.out.println("TA assigned to course successfully!");
         }
     }
 }
