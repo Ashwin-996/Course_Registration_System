@@ -1,11 +1,10 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
+import java.time.*;
 
 public class Student extends User implements View{
     private ArrayList<ArrayList<Course>> registered_courses;
     private Map<String,Float> completed_courses_gpa;
+    private Map<String,Boolean> feedback_given;
     private ArrayList<Course> sem_courses;
     private ArrayList<Complaint> myComplaints;
     private int current_sem, credits;
@@ -27,6 +26,7 @@ public class Student extends User implements View{
         this.contact_no = contact_no;
         this.email = email;
         completed_courses_gpa = new HashMap<String, Float>();
+        feedback_given = new HashMap<String, Boolean>();
         myComplaints = new ArrayList<Complaint>();
         sem_courses = new ArrayList<Course>();
         sem_courses = Courses.get_sem_courses(this.current_sem);
@@ -135,7 +135,6 @@ public class Student extends User implements View{
             System.out.println("Enter Course Code: ");
 
             String code = scnn.nextLine();
-            System.out.println("code: " + code);
             boolean found_course = false, course_done = false, already_reg = false, enrol_lmt_full = false;
             String pre_not_done = "None";
             Course do_course = new Course("", "", 0, "", "", new ArrayList<Integer>(), 150);
@@ -171,7 +170,13 @@ public class Student extends User implements View{
                 else if(already_reg) System.out.println("Already registered for this course!");
                 else {
                     if (!pre_not_done.equals("None")) System.out.println("Prerequisite " + pre_not_done + " not done!");
-                    else if(enrol_lmt_full) System.out.println("Course enrollment limit full! Register for another course or wait for someone to drop the course.");
+                    else if(enrol_lmt_full) {
+                        try {
+                            throw new CourseFullException("Course enrollment limit full! Register for another course or wait for someone to drop the course.");
+                        }catch (CourseFullException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
                     else {
                         if(do_course.get_credits() + credits > 20) System.out.println("Cannot exceed credit limit of 20 for a semester! Currently credits taken: " + credits);
                         else {
@@ -187,6 +192,15 @@ public class Student extends User implements View{
     }
 
     public void drop_course() {
+        if(LocalDateTime.now().isAfter(Courses.get_drop_deadline())) {
+            try {
+                throw new DropDeadlinePassedException("Deadline to drop courses passed. Cannot drop courses now.");
+            }catch (DropDeadlinePassedException e) {
+                System.out.println(e.getMessage());
+                return;
+            }
+        }
+
         System.out.println("Registered courses: " + registered_courses.get(current_sem - 1));
         while (true) {
             System.out.println("Enter course code of course to be dropped or write \'0\' to go back: ");
@@ -306,6 +320,65 @@ public class Student extends User implements View{
             else System.out.printf("Resolved   ");
 
             System.out.println("Description: " + u.get_description());
+        }
+    }
+
+    public void give_feedback() {
+        while(true) {
+            System.out.println("Enter course code of course to give feedback or write \'0\' to go back: ");
+
+            Scanner scn = new Scanner(System.in);
+            String code = scn.nextLine();
+
+            if (code.equals("0")) return;
+
+            if(feedback_given.containsKey(code)) {
+                System.out.println("Feedback already given!");
+                continue;
+            }
+
+            boolean course_completed = false, course_found = false, given = false;
+            for(int sem = 1; sem < 9; sem++) {
+                for (Course u : Courses.get_sem_courses(sem)) {
+                    if(u.get_course_code().equals(code)) {
+                        if(completed_courses_gpa.containsKey(code)) {
+                            course_completed = true;
+                            while (true) {
+                                System.out.println("Enter:\n1 - Give rating (1-5)\n2 - Give textual feedback");
+                                Scanner scn_act = new Scanner(System.in);
+                                String action = scn_act.nextLine();
+                                if (action.equals("1")) {
+                                    try {
+                                        System.out.println("Enter rating (1-5): ");
+                                        Scanner scn_int = new Scanner(System.in);
+                                        int rating = scn_int.nextInt();
+                                        u.add_feedback(new Feedback<Integer>(rating));
+                                    } catch (InputMismatchException inp) {
+                                        System.out.println("Incorrect input! Try Again.");
+                                        continue;
+                                    }
+                                } else {
+                                    System.out.println("Enter Feedback: ");
+                                    Scanner scn_str = new Scanner(System.in);
+                                    String str = scn_str.nextLine();
+
+                                    u.add_feedback(new Feedback<String>(str));
+                                }
+                                feedback_given.put(code, true);
+                                given = true;
+                                break;
+                            }
+                        }
+                        course_found = true;
+                        break;
+                    }
+                }
+                if(given) break;
+            }
+
+            if(!course_found) System.out.println("Incorrect Entry! Try Again.");
+            else if(!course_completed) System.out.println("Course not completed!");
+            else if(given) System.out.println("Feedback given successfully!");
         }
     }
 }
