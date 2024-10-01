@@ -1,11 +1,16 @@
 import java.util.ArrayList;
-// Make prerequisites a list
+import java.time.*;
+import java.util.Scanner;
+
 public class Courses
 {
     private static ArrayList<ArrayList<Course>> sems;
+    private static LocalDateTime drop_deadline;
 
     public Courses()
     {
+        drop_deadline = LocalDateTime.parse("2024-07-15T10:25:00");
+
         sems = new ArrayList<ArrayList<Course>>();
 
         for(int i=0; i<8; i++) {
@@ -24,7 +29,7 @@ public class Courses
         _course = new Course("CSE101", "Introduction to programming", 4, "None", "Monday-9:30-11 C-101 Wednesday-9:30-11 C-102", sems_off, 150);
         _course = new Course("ECE111", "Digital Circuits", 4, "None", "Tuesday-11-12 C-101 Thursday-11-12 C-102 Friday-11-12 A-302", sems_off, 150);
         _course = new Course("DES102", "Introduction to HCI", 4, "None", "Tuesday-9:30-11 C-03 Thursday-9:30-11 C-101", sems_off, 150);
-        _course = new Course("MTH100", "Linear Algebra", 4, "None", "Monday-11-12 C-12 Wednesday-11-12 C-02 Friday-9:30-10:30 B-320", sems_off, 2);
+        _course = new Course("MTH100", "Linear Algebra", 4, "None", "Monday-11-12 C-12 Wednesday-11-12 C-02 Friday-9:30-10:30 B-320", sems_off, 1);
         _course = new Course("COM101", "Communication Skills", 4, "None", "Wednesday-3-6 C-102", sems_off, 150);
 
         sems_off.remove(0);
@@ -72,6 +77,26 @@ public class Courses
         _course = new Course("CSE601", "Compilers", 4, "CSE101, CSE102, CSE201", "Tuesday-2-3 C-202 Friday-2-3 A-12", sems_off, 150);
         _course = new Course("ENG599s", "Research Methods", 2, "None", "Wednesday-4:6 B-11", sems_off, 150);
         _course = new Course("ECO333", "Macroeconomics", 4, "None", "Monday-3-4:30 C-202 Thursday-9:30-11 B-203", sems_off, 150);
+    }
+
+    public static LocalDateTime get_drop_deadline() {
+        return drop_deadline;
+    }
+
+    public static void set_drop_deadline() {
+        String deadline = "";
+        System.out.println("Enter Date (YYYY-MM-DD):");
+        Scanner scn = new Scanner(System.in);
+        String date = scn.nextLine();
+        deadline += date;
+        deadline += 'T';
+        System.out.println("Enter Time (HH:MM:SS):");
+        String time = scn.nextLine();
+        deadline += time;
+
+        drop_deadline = LocalDateTime.parse(deadline);
+
+        System.out.println("Deadline Updated Successfully!");
     }
 
     public static ArrayList<Course> get_sem_courses(int sem_no)
