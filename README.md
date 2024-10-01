@@ -29,7 +29,12 @@ Run the following commands in the same order:
 * <b><ins>Interfaces</ins></b>
   * The Edit interface has two methods edit_courses and update_student_rec which is implemented by Professor and Admin class as both have these common functionalities.
   * The View interface has one method view_courses which is implemented by Professor, Student and Admin as all three have this common functionality.
-* <b><ins>Generic programming</ins></b> - The Users database allows adding of users in the database through a function for which objects of all classes that extend the User class are allowed as parameters
+* <b><ins>Generic programming</ins></b> - The Users database allows adding of users in the database through a function for which objects of all classes that extend the User class are allowed as parameters. The Feedback class is a generic class which allows students to give feedback for courses in the form of numeric rating or a description.
+* <b><ins>Exception Handling</ins></b> - Three custom exception classes are created for handling the following :
+      * Invalid Login - If a user enters invalid credentials while logging in, this exception is thrown.
+      * Course Full - If a student tries to register for a course which has already reached its cap for enrollments, this exception is thrown.
+      * Drop Deadline Passed - If a student tries to drop courses after the drop deadline has passed, this exception is thrown.
+* <b><ins> Object class</ins></b> - The toString method of the Object Class is used to print course details for any course in the catalog. The instanceOf keyword is also paired with generic programming to help the professor view different kinds of feedback together. 
 * <b><ins>Encapsulation</ins></b> - For each class private variables with respective accessors and mutators have been created to enforce encapsulation. The class wise breakdown for encapsulation is as follows:
   * ### Admin class:
     * ###### Private variables:
@@ -135,6 +140,10 @@ Run the following commands in the same order:
 * ### Main class:
   * <b>initialize</b> - Sign-up three students, two professors and one admin
   * <b>sign_up</b> - Allow user to sign-up in the system
-  * <b>login</b> - Allow user to login into the system  
+  * <b>login</b> - Allow user to login into the system
+* ### TA class -
+  * <b>update_student_rec</b> - Update grades of students registered for the course for which one is a TA
+  * <b>view_students</b> - View details and grades of students registered for the course for which one is a TA
+
 
 # Github link - https://github.com/Ashwin-996/AP_Assignment_1.git
