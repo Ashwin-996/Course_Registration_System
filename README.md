@@ -129,6 +129,8 @@ Run the following commands in the same order:
   * <b>change_complaint_status</b> - change the status of a complaint to pending or resolved
   * <b>edit_courses</b> - Add and Remove courses from the course catalog
   * <b>update_student_rec</b> - Update details of any student such as their name, email, contact no., password and grades
+  * <b>make_TA</b> - Make any student a teaching assistant
+  * <b>assign_TA</b> - Assign course to any TA
 * ### Student class -
   * <b>update_gpa</b> - Assign or update gpa for a completed course
   * <b>inc_sem</b> - Move student to the next semester 
