@@ -2,14 +2,14 @@ import java.util.*;
 import java.time.*;
 
 public class Student extends User implements View{
-    private ArrayList<ArrayList<Course>> registered_courses;
-    private Map<String,Float> completed_courses_gpa;
-    private Map<String,Boolean> feedback_given;
-    private ArrayList<Course> sem_courses;
-    private ArrayList<Complaint> myComplaints;
-    private int current_sem, credits;
-    private final int rno;
-    private static int counter = 1;
+    protected ArrayList<ArrayList<Course>> registered_courses;
+    protected Map<String,Float> completed_courses_gpa;
+    protected Map<String,Boolean> feedback_given;
+    protected ArrayList<Course> sem_courses;
+    protected ArrayList<Complaint> myComplaints;
+    protected int current_sem, credits;
+    protected int rno;
+    protected static int counter = 1;
 
     public Student() {
         super();
@@ -40,9 +40,49 @@ public class Student extends User implements View{
         Users.add_user(this);
     }
 
+    @Override
+    public boolean equals(Object o1) {
+        if(o1 != null && getClass() == o1.getClass()) {
+            Student o = (Student) o1;
+            return (this.email.equals(o.email));
+        }else return false;
+    }
+
+    public static void dec_counter() {counter--;}
+
+    public Map<String,Float> get_ccg() { return completed_courses_gpa; }
+
+    public void set_ccg(Map<String,Float> _ccg) { completed_courses_gpa = _ccg; }
+
+    public Map<String, Boolean> get_fg() { return feedback_given; }
+
+    public void set_fg(Map<String, Boolean> _fg) { feedback_given = _fg; }
+
+    public ArrayList<Course> get_sem_courses() { return sem_courses; }
+
+    public void set_sem_courses(ArrayList<Course> _sc) { sem_courses = _sc; }
+
+    public ArrayList<Complaint> get_complaints() { return myComplaints; }
+
+    public void set_complaints(ArrayList<Complaint> _mc) { myComplaints = _mc; }
+
+    public ArrayList<ArrayList<Course>> get_rc() { return registered_courses; }
+
+    public void set_rc(ArrayList<ArrayList<Course>> _rc) { registered_courses = _rc; }
+
     public int get_rno() {
         return rno;
     }
+
+    public void set_rno(int rn) { rno = rn; }
+
+    public int get_credits() { return credits; }
+
+    public void set_credits(int creds) { credits = creds; }
+
+    public int get_current_sem() { return current_sem; }
+
+    public void set_current_sem(int cs) { current_sem = cs; }
 
     public void update_gpa(String code, float gpa) {
         completed_courses_gpa.put(code, gpa);
@@ -63,6 +103,9 @@ public class Student extends User implements View{
     }
 
     public void inc_sem() {
+        for(Course u: get_curr_courses()) {
+            u.remove_student(this);
+        }
         current_sem++;
         sem_courses = Courses.get_sem_courses(this.current_sem);
         credits = 0;
