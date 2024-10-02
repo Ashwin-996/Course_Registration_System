@@ -111,7 +111,7 @@ public class Main {
 
     public static void admin_function(Admin _admin) {
         while(true) {
-            System.out.println("Enter:\n0 - Go back\n1 - View and Manage Course Catalog\n2 - Manage Student Record\n3 - Assign professor to course\n4 - Handle Complaintsn\n5 - Change Course Drop Deadline\n6 - Assign TA to courses");
+            System.out.println("Enter:\n0 - Go back\n1 - View and Manage Course Catalog\n2 - Manage Student Record\n3 - Assign professor to course\n4 - Handle Complaintsn\n5 - Change Course Drop Deadline\n6 - Assign TA to courses\n7 - Make student a TA");
             Scanner scn = new Scanner(System.in);
             String action = scn.nextLine();
 
@@ -144,6 +144,8 @@ public class Main {
             }
             else if(action.equals("5")) _admin.change_deadline();
             else if(action.equals("6")) _admin.assign_TA();
+            else if(action.equals("7")) _admin.make_TA();
+            else System.out.println("Incorrect Entry! Try Again.");
         }
     }
 
@@ -170,7 +172,7 @@ public class Main {
 
     public static void sign_up() {
         while(true) {
-            System.out.println("Enter:\n0 - Go back\n1 - Sign-up for student\n2 - Sign-up for professor\n3 - Sign-up for Admin\n4 - Sign-up for TA");
+            System.out.println("Enter:\n0 - Go back\n1 - Sign-up for student\n2 - Sign-up for professor\n3 - Sign-up for Admin");
             Scanner scn = new Scanner(System.in);
             String action = scn.nextLine();
 
@@ -187,7 +189,7 @@ public class Main {
             Student _student;
             Professor _prof;
             Admin _admin;
-            TA _ta;
+
             if (action.equals("1")) {
                 _student = new Student(name, email, cno, pwd);
                 System.out.println("Sign-up Successfull!");
@@ -202,10 +204,6 @@ public class Main {
                     System.out.println("Sign-up Successfull!");
                 }
                 else System.out.println("Incorrect password for Admin! Try Again.");
-            }
-            else if (action.equals("4")) {
-                _ta = new TA(name, email, cno, pwd);
-                System.out.println("Sign-up Successfull!");
             }
             else System.out.println("Incorrect Entry! Try Again");
         }
