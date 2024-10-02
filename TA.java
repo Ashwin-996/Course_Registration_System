@@ -8,6 +8,31 @@ public class TA extends Student{
         super();
     }
 
+    public TA(Student _student) {
+        super(_student.name, _student.email, _student.contact_no, _student.password);
+        set_credits(_student.get_credits());
+        set_current_sem(_student.get_current_sem());
+        set_rno(_student.get_rno());
+        set_ccg(_student.get_ccg());
+        set_fg(_student.get_fg());
+        set_sem_courses(_student.get_sem_courses());
+        set_complaints(_student.get_complaints());
+        set_rc(_student.get_rc());
+        Student.dec_counter();
+
+        ArrayList<Integer> sems = new ArrayList<Integer>();
+        myCourse = new Course("", "", 0, "", "", sems, 150);
+        Admin.add_TA(this);
+
+        for(Course u: _student.get_curr_courses()) {
+            u.remove_student(_student);
+            u.add_student(this);
+        }
+
+        Users.remove_user(_student);
+        Admin.remove_student(_student);
+    }
+
     public TA(String name, String email, String cno, String pwd){
         super(name, email, cno, pwd);
         ArrayList<Integer> sems = new ArrayList<Integer>();
