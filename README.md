@@ -14,8 +14,8 @@ Run the following commands in the same order:
 * A student cannot go to the next semester unless he passes all registered courses for this sem i.e. gets a grade of 4.0 or above in all registered courses.
 * Professor/TA/Admin will assign grades only when the semester is over. Also, once the grades have started being assigned meaning the semester is over, students cannot drop courses, they can only do so while the semester in ongoing.
 * Only admin can change the course drop deadline.
-* TAs have to signup if they want to become a TA for any course.
 * Only admin can assign any TA to a course.
+* TAs dont signup, they are students so when they register for the first time they signup as students and eventually the admin can make them a TA.
 
 
 # How OOPs concepts are applied:
@@ -37,7 +37,7 @@ Run the following commands in the same order:
       * Invalid Login - If a user enters invalid credentials while logging in, this exception is thrown.
       * Course Full - If a student tries to register for a course which has already reached its cap for enrollments, this exception is thrown.
       * Drop Deadline Passed - If a student tries to drop courses after the drop deadline has passed, this exception is thrown.
-* <b><ins> Object class</ins></b> - The toString method of the Object Class is used to print course details for any course in the catalog. The instanceOf keyword is also paired with generic programming to help the professor view different kinds of feedback together. 
+* <b><ins> Object class</ins></b> - The toString method of the Object Class is overriden and used to print course details for any course in the catalog. The instanceOf keyword is also paired with generic programming to help the professor view different kinds of feedback together. The equals method of the object class is also overriden to check equality of two student objects through their emails.
 * <b><ins>Encapsulation</ins></b> - For each class private variables with respective accessors and mutators have been created to enforce encapsulation. The class wise breakdown for encapsulation is as follows:
   * ### Admin class:
     * ###### Private variables:
@@ -92,8 +92,6 @@ Run the following commands in the same order:
       * sem_courses - courses available for the current semester
       * myComplaints - An array of issues raised by the student
       * rno - Roll number of the student
-    * ###### Getters:
-      * get_rno()
   * ### Courses class:
     * ###### Private variables:
       * sems - An array of lists storing all courses offered in the institute semester-wise
