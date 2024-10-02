@@ -22,6 +22,10 @@ public class Admin extends User implements Edit, View{
         students.add(_student);
     }
 
+    public static void remove_student(Student _student) {
+        students.remove(_student);
+    }
+
     public static void add_TA(TA _ta) {
         tas.add(_ta);
     }
@@ -375,6 +379,41 @@ public class Admin extends User implements Edit, View{
             _course.remove_TA(_TA);
 
             System.out.println("TA assigned to course successfully!");
+        }
+    }
+
+    public void make_TA() {
+        while(true) {
+            System.out.println("Enter email id of student or write \'0\' to go back: ");
+            Scanner scn = new Scanner(System.in);
+            String _email = scn.nextLine();
+
+            if(_email.equals("0")) return;
+
+            boolean already_ta = false;
+            for(TA u: tas) {
+                if(u.email.equals(_email)) {
+                    already_ta = true;
+                    break;
+                }
+            }
+
+            if(already_ta) {
+                System.out.println("This student is already a TA. Try Again.");
+                continue;
+            }
+
+            boolean student_found = false;
+            for(Student u: students) {
+                if(u.email.equals(_email)) {
+                    TA _ta = new TA(u);
+                    student_found = true;
+                    break;
+                }
+            }
+
+            if(!student_found) System.out.println("Student Not Found! Try Again.");
+            else System.out.println("TA made succesfully!");
         }
     }
 }
